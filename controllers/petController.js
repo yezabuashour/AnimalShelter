@@ -43,12 +43,13 @@ const mongoGetPetAsync = async (_id) => {
     }
 };
 
-// update measurements for pet by id
-const mongoPostPetUpdateAsync = async (_id, newMeasurement) => {
+// updates pet by id
+const mongoPostPetUpdateAsync = async (_id, petUpdate) => {
     try {
         let data = await Pet.findOne({ _id: _id });
         if (!data) return ({ message: "Pet does not exist." });
-        data.measurements.push(newMeasurement);
+        data.weight = petUpdate.weight;
+        data.adopted = petUpdate.adopted;
         try {
             await data.save();
             return data;
@@ -89,13 +90,11 @@ const postNewPetAsync = async (req, res) => {
     const newPet = new Pet({
         _id: req.body._id,
         name: req.body.name,
-        address: req.body.address,
-        phone: req.body.phone,
-        birthdate: req.body.birthdate,
-        status: req.body.status,
-        gender: req.body.gender,
-        martialStatus: req.body.martialStatus,
-        race: req.body.race
+        dateOfBirth: req.body.dateOfBirth,
+        weight: req.body.weight,
+        breed: req.body.breed,
+        sex: req.body.sex,
+        adopted: req.body.adopted
     });
 
     try {
@@ -118,19 +117,16 @@ const getPetAsync = async (req, res) => {
     }
 };
 
-// post /api/pet/:id middleware
 const postPetUpdateAsync = async (req, res) => {
-    let newChloride = req.body.chloride;
-    if (!newChloride) return res.json({ message: "No chloride measurement provided." });
-
     let _id = req.params._id;
-    const newMeasurement = {
-        chloride: newChloride,
-        date: new Date()
-    }
+    const petUpdate = {
+        weight: req.body.weight,
+        adopted: req.body.adopted
+    };
+    if (!petUpdate.weight && !petUpdate.adopted) return res.json({ message: "Only weight or adoption status can be updated." });
 
     try {
-        let data = await mongoPostPetUpdateAsync(_id, newMeasurement);
+        let data = await mongoPostPetUpdateAsync(_id, petUpdate);
         return res.json(data);
     } catch (err) {
         console.error(err);
@@ -150,28 +146,28 @@ const deletePetAsync = async (req, res) => {
     }
 };
 
-// renders view for /pets
-const viewAllPetsAsync = async (req, res) => {
-    try {
-        let pets = await mongoGetAllPetsAsync();
-        return res.render("allPets", { pets: pets.toString() });
-    } catch (err) {
-        console.error(err);
-        return res.json({ Error: err });
-    }
-};
+// // renders view for /pets
+// const viewAllPetsAsync = async (req, res) => {
+//     try {
+//         let pets = await mongoGetAllPetsAsync();
+//         return res.render("allPets", { pets: pets.toString() });
+//     } catch (err) {
+//         console.error(err);
+//         return res.json({ Error: err });
+//     }
+// };
 
-// renders view for /pets/:_id
-const viewPetAsync = async (req, res) => {
-    try {
-        let _id = req.params._id;
-        let pet = await mongoGetPetAsync(_id);
-        return res.render("pet", { pet: pet.toString() });
-    } catch (err) {
-        console.error(err);
-        return res.json({ Error: err });
-    }
-};
+// // renders view for /pets/:_id
+// const viewPetAsync = async (req, res) => {
+//     try {
+//         let _id = req.params._id;
+//         let pet = await mongoGetPetAsync(_id);
+//         return res.render("pet", { pet: pet.toString() });
+//     } catch (err) {
+//         console.error(err);
+//         return res.json({ Error: err });
+//     }
+// };
 
 module.exports = {
     getAllPetsAsync,

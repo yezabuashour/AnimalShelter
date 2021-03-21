@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const PetSchema = new mongoose.Schema({
     _id: {type:Number, required:true},
     name: String,
-    age: Number,
+    dateOfBirth: Date,
     weight: Number,
     breed: String,
     sex: String,

@@ -1,12 +1,12 @@
 const express = require('express');
 const router  = express.Router();
 
-const adoptionController = require('../controllers/adoption');
+const adoptionController = require('../controllers/adoptionController');
 
-router.get('/api/adoption', adoptionController.getAlladoptionsAsync);
-router.post('/api/adoption', adoptionController.postNewadoptionAsync);
+router.get('/', adoptionController.getAllAdoptionsAsync);
+router.post('/', adoptionController.postNewAdoptionAsync);
 
-router.get('/api/adoption/:_id', adoptionController.getadoptionAsync);
-router.delete('/api/adoption/:_id', adoptionController.deleteadoptionAsync);
+router.get('/:_id', adoptionController.getAdoptionAsync);
+router.delete('/:_id', adoptionController.deleteAdoptionAsync);
 
 module.exports = router;

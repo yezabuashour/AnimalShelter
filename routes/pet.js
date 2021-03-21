@@ -1,14 +1,16 @@
 const express = require('express');
 const router  = express.Router();
 
-const petController = require('../controllers/pet');
+const { requiresAuth } = require('express-openid-connect');
 
-router.get('/api/pet', petController.getAllpetsAsync);
-router.post('/api/pet', petController.postNewpetAsync);
+const petController = require('../controllers/petController');
 
-router.get('/api/pet/:_id', petController.getpetAsync);
-router.post('/api/pet/:_id', petController.postpetUpdateAsync);
-router.delete('/api/pet/:_id', petController.deletepetAsync);
+router.get('/', requiresAuth(), petController.getAllPetsAsync);
+router.post('/', petController.postNewPetAsync);
+
+router.get('/:_id', petController.getPetAsync);
+router.post('/:_id', petController.postPetUpdateAsync);
+router.delete('/:_id', petController.deletePetAsync);
 
 // router.get('/pets', petController.viewAllpetsAsync);
 // router.get('/pets/:_id', petController.viewpetAsync);

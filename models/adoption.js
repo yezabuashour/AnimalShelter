@@ -16,7 +16,7 @@ const AdoptionSchema = new mongoose.Schema({
     ownPetsBehavior: String,
     vetName: String,
     vetNumber: Number,
-    housingtype: String,
+    housingType: String,
     hasYard: Boolean,
     everSurrendered: Boolean,
     numberOfChildren: Number,
