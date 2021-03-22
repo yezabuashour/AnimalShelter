@@ -147,7 +147,7 @@ const deletePetAsync = async (req, res) => {
 };
 
 // // renders view for /pets
-// const viewAllPetsAsync = async (req, res) => {
+// const postNewPet = async (req, res) => {
 //     try {
 //         let pets = await mongoGetAllPetsAsync();
 //         return res.render("allPets", { pets: pets.toString() });
@@ -174,5 +174,5 @@ module.exports = {
     postNewPetAsync,
     getPetAsync,
     postPetUpdateAsync,
-    deletePetAsync,
+    deletePetAsync
 };
