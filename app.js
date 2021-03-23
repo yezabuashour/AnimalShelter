@@ -1,18 +1,17 @@
+// dependencies
 require('dotenv').config();
-
 const mongoose = require('mongoose');
-
 const express = require('express');
-
 const path = require("path");
 const { auth } = require("express-openid-connect");
 
+// express init
 const app = express();
 
-// allows for json body posts
+// allows for json body posts, api
 app.use(express.json());
 
-// uncomment below to allow for form-urlencoded body posts
+// uncomment below to allow for form-urlencoded body posts, form submission
 // app.use(express.urlencoded({ extended: true }));
 
 const config = {
@@ -22,14 +21,15 @@ const config = {
     clientID: process.env.AUTH0_CLIENT_ID,
     issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
     secret: process.env.SESSION_SECRET
-  };
-  
+};
 
+// routes and auth implementation
 app.use('/', require('./routes/index'));
 app.use(auth(config));
 app.use('/pet', require('./routes/pet'));
 app.use('/adoption', require('./routes/adoption'));
 
+// mongodb atlas connection
 mongoose.connect(
     process.env.MONGO_URI,
     { useFindAndModify: false, useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true },
@@ -39,6 +39,7 @@ mongoose.connect(
     }
 );
 
+// opening server & export listener if needed
 const listener = app.listen(process.env.PORT || 3000, () => {
     console.log('Your app is listening on port ' + listener.address().port)
 });

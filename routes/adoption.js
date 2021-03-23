@@ -1,10 +1,10 @@
 const express = require('express');
-const router  = express.Router();
-
 const { requiresAuth } = require('express-openid-connect');
-
 const adoptionController = require('../controllers/adoptionController');
 
+const router  = express.Router();
+
+// route declaration with auth
 router.get('/', requiresAuth(), adoptionController.getAllAdoptionsAsync);
 router.post('/', requiresAuth(), adoptionController.postNewAdoptionAsync);
 

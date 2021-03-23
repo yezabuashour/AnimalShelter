@@ -1,10 +1,10 @@
 const express = require('express');
-const router  = express.Router();
-
 const { requiresAuth } = require('express-openid-connect');
-
 const petController = require('../controllers/petController');
 
+const router  = express.Router();
+
+// routes declarations with auth
 router.get('/', petController.getAllPetsAsync);
 router.post('/', requiresAuth(), petController.postNewPetAsync);
 

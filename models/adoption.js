@@ -31,5 +31,6 @@ const AdoptionSchema = new mongoose.Schema({
 
 });
 
+// schema to mongoose model
 const Adoption = mongoose.model('adoptions', AdoptionSchema);
 module.exports = Adoption;
